@@ -5,6 +5,16 @@ use Slim\Http\Response;
 
 // Routes
 $app->get('/init', function (Request $request, Response $response, array $args) {
+    
+    // Create database if it doesn't exists
+    $this->logger->info("Creating table if it doesn't exist.");
+    $createDatabaseSQL = <<<EOD
+    CREATE DATABASE IF NOT EXISTS `crmdb`;
+      
+EOD;
+    $sth = $this->db->prepare($createDatabaseSQL);
+    $sth->execute();
+    
     // Create table if it doesn't exists
     $this->logger->info("Creating table if it doesn't exist.");
     $createTableSQL = <<<EOD
